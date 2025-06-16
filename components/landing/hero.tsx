@@ -69,7 +69,7 @@ export function Hero() {
       >
         <div className="relative rounded-2xl bg-gradient-to-b from-muted/50 to-muted p-2 ring-1 ring-foreground/10 backdrop-blur-3xl dark:from-muted/30 dark:to-background/80">
           <Image
-            src="/images/agrolens-dashboard-light.png"
+            src="/images/al-sensor-dash.png"
             alt="AgroLens Dashboard Preview"
             width={1200}
             height={800}

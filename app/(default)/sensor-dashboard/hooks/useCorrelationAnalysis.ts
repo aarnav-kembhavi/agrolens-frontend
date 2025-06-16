@@ -1,6 +1,6 @@
 "use client";
 
-import { HealthData } from '@/lib/types/health-types';
+import { SensorData } from '@/lib/types/sensor-types';
 import { useState, useCallback } from 'react';
 
 // Helper function to calculate Pearson correlation
@@ -58,8 +58,8 @@ function calculatePearsonCorrelation(
 }
 
 export interface CorrelationResult {
-  metric1: keyof HealthData;
-  metric2: keyof HealthData;
+  metric1: keyof SensorData;
+  metric2: keyof SensorData;
   correlation: number | null;
   dataPoints: number;
 }
@@ -67,8 +67,8 @@ export interface CorrelationResult {
 interface UseCorrelationAnalysisReturn {
   correlations: CorrelationResult[];
   calculateCorrelations: (
-    data: HealthData[],
-    metricsToCorrelate: (keyof HealthData)[]
+    data: SensorData[],
+    metricsToCorrelate: (keyof SensorData)[]
   ) => void;
   loading: boolean;
   error: Error | null;
@@ -80,7 +80,7 @@ export function useCorrelationAnalysis(): UseCorrelationAnalysisReturn {
   const [error, setError] = useState<Error | null>(null);
 
   const calculateCorrelations = useCallback(
-    (data: HealthData[], metricsToCorrelate: (keyof HealthData)[]) => {
+    (data: SensorData[], metricsToCorrelate: (keyof SensorData)[]) => {
       if (!data || data.length === 0) {
         setError(new Error("No data provided for correlation analysis."));
         setCorrelations([]);

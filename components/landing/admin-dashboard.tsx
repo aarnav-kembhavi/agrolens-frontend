@@ -6,29 +6,29 @@ const features = [
   {
     title: "Plant Health Classifier",
     description: "Upload a photo of a plant leaf and our AI will instantly identify potential diseases, providing you with a diagnosis and recommended treatments.",
-    image: "/images/light/agrolens-plant-health-light.png",
-    darkImage: "/images/dark/agrolens-plant-health-dark.png",
+    image: "/images/al-plant-health-upload.png",
+    darkImage: "/images/al-plant-health-upload.png",
     alt: "AgroLens Plant Health Classifier Interface",
   },
   {
     title: "Sensor Data Dashboard",
     description: "Monitor your farm's vital signs in real-time. Our dashboard displays live data from your sensors, including soil moisture, temperature, humidity, and light levels.",
-    image: "/images/light/agrolens-sensor-dashboard-light.png",
-    darkImage: "/images/dark/agrolens-sensor-dashboard-dark.png",
+    image: "/images/al-sensor-dash.png",
+    darkImage: "/images/al-sensor-dash.png",
     alt: "AgroLens Sensor Data Dashboard",
   },
   {
     title: "Interactive Farm Map",
     description: "Get a bird's-eye view of your entire operation. Our interactive map allows you to visualize sensor locations, monitor different zones, and track crop performance across your fields.",
-    image: "/images/light/agrolens-map-light.png",
-    darkImage: "/images/dark/agrolens-map-dark.png",
+    image: "/images/al-plant-health-analysis.png",
+    darkImage: "/images/al-plant-health-analysis.png",
     alt: "AgroLens Interactive Farm Map",
   },
   {
     title: "AI Farming Assistant",
     description: "Have a question? Our AI-powered chat assistant is available 24/7 to provide expert advice on everything from pest control to optimal harvesting times.",
-    image: "/images/light/agrolens-chat-light.png",
-    darkImage: "/images/dark/agrolens-chat-dark.png",
+    image: "/images/al-sensor-dash.png",
+    darkImage: "/images/al-sensor-dash.png",
     alt: "AgroLens AI Chat Assistant",
   }
 ]

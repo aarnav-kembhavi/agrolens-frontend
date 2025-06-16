@@ -71,16 +71,16 @@ export default function SensorMonitor() {
   }, [supabase, isStreaming]);
 
   return (
-    <div className="flex flex-col h-full p-0 bg-background">
+    <div className="flex flex-col h-full p-0 bg-background container mx-auto">
       <MonitorHeader 
-        title="Sensor Monitor"
+        title="Sensor Dashboard"
         isStreaming={isStreaming}
         startStreaming={startStreaming}
         stopStreaming={stopStreaming}
         chartType={chartType}
         setChartType={setChartType}
       />
-      <div className="flex-grow overflow-y-auto p-4">
+      <div className="p-4">
         <MonitorTabs 
           sensorData={sensorData} 
           isStreaming={isStreaming} 

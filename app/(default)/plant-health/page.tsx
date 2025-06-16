@@ -1,22 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Loader2, Upload, Leaf } from "lucide-react";
+import { Leaf, Loader2 } from "lucide-react";
+
 import { PageHeader } from "@/components/ui/page-header";
+import { AnalysisResults } from "@/components/plant-health/analysis-results";
+import { ImageUploadForm } from "@/components/plant-health/image-upload-form";
+import { KindwiseResponse, Question } from "@/lib/types";
 
 export default function PlantHealthPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [prediction, setPrediction] = useState<{
-    disease: string;
-    confidence: number;
-    treatment: string;
-  } | null>(null);
+  const [prediction, setPrediction] = useState<KindwiseResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
+  const [answered, setAnswered] = useState<boolean>(false);
+  const [highlightedSuggestion, setHighlightedSuggestion] = useState<number | null>(null);
 
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -24,6 +24,10 @@ export default function PlantHealthPage() {
       setSelectedImage(file);
       setPreviewUrl(URL.createObjectURL(file));
       setPrediction(null);
+      setError(null);
+      setActiveQuestion(null);
+      setAnswered(false);
+      setHighlightedSuggestion(null);
     }
   };
 
@@ -31,132 +35,90 @@ export default function PlantHealthPage() {
     if (!selectedImage) return;
 
     setIsAnalyzing(true);
-    setPrediction(null); // Clear previous prediction
+    setPrediction(null);
+    setError(null);
+    setActiveQuestion(null);
+    setAnswered(false);
+    setHighlightedSuggestion(null);
 
     const formData = new FormData();
     formData.append("file", selectedImage);
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/predict-disease",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const response = await fetch("/api/plant-health", {
+        method: "POST",
+        body: formData,
+      });
 
       const data = await response.json();
-      setPrediction({
-        disease: data.prediction_class,
-        confidence: data.confidence,
-        treatment: data.remedy,
-      });
+
+      if (!response.ok) {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      }
+
+      setPrediction(data);
+      if (data.result?.disease?.question) {
+        setActiveQuestion(data.result.disease.question);
+      }
     } catch (error) {
       console.error("Error analyzing plant health:", error);
-      // Optionally, set an error state to display to the user
-      setPrediction({
-        disease: "Error",
-        confidence: 0,
-        treatment: "Failed to analyze plant health. Please try again.",
-      });
+      setError(
+        error instanceof Error
+          ? error.message
+          : "An unknown error occurred. Please try again."
+      );
     } finally {
       setIsAnalyzing(false);
     }
   };
 
+  const handleQuestionAnswer = (answer: "yes" | "no") => {
+    if (!activeQuestion) return;
+    const option = activeQuestion.options[answer];
+    setHighlightedSuggestion(option.suggestion_index);
+    setAnswered(true);
+  };
+
   return (
-    <div className="container mx-auto px-4 py-4 space-y-4">
+    <div className="container mx-auto px-4 py-8">
       <PageHeader title="Plant Health Analysis" />
+      <div className="mt-6">
+        <ImageUploadForm
+          onImageSelect={handleImageSelect}
+          onAnalyze={handleAnalyze}
+          isAnalyzing={isAnalyzing}
+          previewUrl={previewUrl}
+          selectedImage={selectedImage}
+        />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Image Upload Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Leaf className="h-5 w-5 text-green-500" />
-              Upload Plant Image
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="plant-image">Select Plant Image</Label>
-              <Input
-                id="plant-image"
-                type="file"
-                accept="image/*"
-                onChange={handleImageSelect}
-                className="cursor-pointer"
-              />
+        <div className="mt-8">
+          {isAnalyzing && (
+            <div className="flex flex-col items-center justify-center gap-4 p-8 bg-card rounded-lg border">
+              <Loader2 className="h-12 w-12 animate-spin text-primary" />
+              <p className="text-lg text-muted-foreground">Analyzing your plant...</p>
+              <p className="text-sm text-muted-foreground">This might take a moment.</p>
             </div>
+          )}
 
-            {previewUrl && (
-              <div className="relative aspect-square w-full overflow-hidden rounded-lg border">
-                <img
-                  src={previewUrl}
-                  alt="Plant preview"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            )}
+          {!isAnalyzing && (prediction || error) && (
+            <AnalysisResults
+              prediction={prediction}
+              error={error}
+              activeQuestion={activeQuestion}
+              answered={answered}
+              highlightedSuggestion={highlightedSuggestion}
+              onQuestionAnswer={handleQuestionAnswer}
+            />
+          )}
 
-            <Button
-              onClick={handleAnalyze}
-              disabled={!selectedImage || isAnalyzing}
-              className="w-full"
-            >
-              {isAnalyzing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Analyzing...
-                </>
-              ) : (
-                <>
-                  <Upload className="mr-2 h-4 w-4" />
-                  Analyze Plant Health
-                </>
-              )}
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Results Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Leaf className="h-5 w-5 text-green-500" />
-              Analysis Results
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {prediction ? (
-              <div className="space-y-4">
-                <div className="p-4 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800">
-                  <h3 className="font-medium text-green-800 dark:text-green-300">
-                    Detected Disease: {prediction.disease}
-                  </h3>
-                  <p className="text-sm text-green-700 dark:text-green-400 mt-1">
-                    Confidence: {(prediction.confidence * 100).toFixed(1)}%
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <h4 className="font-medium">Recommended Treatment:</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {prediction.treatment}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="h-[200px] flex items-center justify-center text-muted-foreground">
-                Upload and analyze a plant image to see results
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          {!isAnalyzing && !prediction && !error && (
+            <div className="flex flex-col items-center justify-center gap-4 p-8 bg-card rounded-lg border border-dashed">
+              <Leaf className="h-12 w-12 text-muted-foreground" />
+              <p className="text-lg text-muted-foreground">Your analysis results will appear here.</p>
+              <p className="text-sm text-muted-foreground">Upload an image to get started.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -17,8 +17,8 @@ const navItems = [
     href: "/plant-health",
   },
   {
-    label: "Dashboard",
-    href: "/dashboard",
+    label: "Chat",
+    href: "/chat",
   },
   {
     label: "Weather Map",
@@ -28,10 +28,10 @@ const navItems = [
   //   label: "Assistant",
   //   href: "/voice-assistant",
   // },
-  {
-    label: "Settings",
-    href: "/settings",
-  },
+  // {
+  //   label: "Settings",
+  //   href: "/settings",
+  // },
 ];
 
 export const metadata: Metadata = {
