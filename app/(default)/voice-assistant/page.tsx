@@ -3,7 +3,7 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import SensorDashboardPage from "../sensor-dashboard/page";
+import SensorDashboardPage from "../plant-health/page";
 import FarmingAssistantPage from "../farming-assistant/page";
 
 export default function VoiceAssistantPage() {
