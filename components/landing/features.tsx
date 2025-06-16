@@ -1,64 +1,64 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Cloud, Map, Plane, MessageSquareText, Mic, BarChart, Compass, Shield, Zap } from "lucide-react"
+import { Leaf, Droplet, MapPin, Bot, ShieldCheck, TrendingUp, Sprout, Thermometer, Sun } from "lucide-react"
 import SectionBadge from "@/components/ui/section-badge"
 import { cn } from "@/lib/utils"
 
 const features = [
   {
-    title: "Real-time Weather Data",
-    info: "Access live METAR, TAF, PIREP, and SIGMET reports for any airport or waypoint in your flight plan",
-    icon: Cloud,
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    title: "Interactive Weather Map",
-    info: "Visualize weather patterns, flight paths, and conditions with our dynamic mapping interface",
-    icon: Map,
+    title: "AI Disease Detection",
+    info: "Instantly identify crop diseases from a single photo and get actionable remedy advice.",
+    icon: ShieldCheck,
     gradient: "from-green-500 to-emerald-500",
   },
   {
-    title: "Flight Planning",
-    info: "Plan your route with multiple waypoints and altitudes using standard ICAO airport identifiers",
-    icon: Plane,
+    title: "Real-Time Sensor Monitoring",
+    info: "Track key metrics like soil moisture, temperature, and humidity with live data from your sensors.",
+    icon: Thermometer,
+    gradient: "from-blue-500 to-cyan-500",
+  },
+  {
+    title: "Smart Irrigation Insights",
+    info: "Optimize water usage with AI-powered recommendations based on sensor data and weather forecasts.",
+    icon: Droplet,
+    gradient: "from-sky-500 to-indigo-500",
+  },
+  {
+    title: "Interactive Farm Mapping",
+    info: "Visualize your entire farm, monitor specific zones, and track crop health at a glance.",
+    icon: MapPin,
+    gradient: "from-lime-500 to-yellow-500",
+  },
+  {
+    title: "Expert AI Assistant",
+    info: "Get 24/7 answers to your farming questions, from pest control to planting schedules.",
+    icon: Bot,
     gradient: "from-purple-500 to-violet-500",
   },
   {
-    title: "AI-Powered Briefings",
-    info: "Get intelligent summaries and analysis of weather conditions along your entire flight path",
-    icon: MessageSquareText,
+    title: "Crop Health Tracking",
+    info: "Monitor the overall health and growth of your crops over time with detailed analytics.",
+    icon: Leaf,
+    gradient: "from-teal-500 to-green-500",
+  },
+  {
+    title: "Yield Prediction",
+    info: "Forecast your harvest with greater accuracy using data-driven predictions and insights.",
+    icon: TrendingUp,
     gradient: "from-orange-500 to-amber-500",
   },
   {
-    title: "Voice Assistant",
-    info: "Hands-free weather briefings with our voice-enabled assistant for safer preflight preparation",
-    icon: Mic,
-    gradient: "from-red-500 to-rose-500",
+    title: "Sustainable Practices",
+    info: "Receive guidance on sustainable farming techniques to improve soil health and reduce environmental impact.",
+    icon: Sprout,
+    gradient: "from-emerald-500 to-lime-500",
   },
   {
-    title: "Weather Analysis",
-    info: "Detailed classification of weather activity and VFR conditions for each leg of your flight",
-    icon: BarChart,
-    gradient: "from-cyan-500 to-blue-500",
-  },
-  {
-    title: "Route Optimization",
-    info: "Get suggestions for optimal routes based on current and forecasted weather conditions",
-    icon: Compass,
-    gradient: "from-indigo-500 to-purple-500",
-  },
-  {
-    title: "Safety Alerts",
-    info: "Receive immediate notifications about hazardous weather conditions along your route",
-    icon: Shield,
+    title: "Light & Environment Sensing",
+    info: "Understand the light exposure and environmental conditions affecting your crops for better management.",
+    icon: Sun,
     gradient: "from-yellow-500 to-orange-500",
-  },
-  {
-    title: "Real-time Updates",
-    info: "Stay informed with instant updates to weather conditions and reports during flight planning",
-    icon: Zap,
-    gradient: "from-pink-500 to-rose-500",
   },
 ]
 
@@ -89,7 +89,7 @@ export function Features() {
           transition={{ duration: 0.5 }}
           className="mt-8 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
         >
-          Comprehensive Flight Weather
+          Smarter Farming Starts Here
         </motion.h2>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
@@ -98,7 +98,7 @@ export function Features() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground"
         >
-          Everything you need for safe and informed flight planning with real-time weather data and intelligent analysis
+          Unlock the full potential of your farm with our suite of intelligent tools designed for modern, sustainable agriculture.
         </motion.p>
       </div>
 

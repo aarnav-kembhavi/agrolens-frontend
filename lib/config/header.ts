@@ -18,11 +18,12 @@ export interface HeaderConfig {
 export const headerConfig: HeaderConfig = {
   brand: {
     title: "AgroLens",
-    icon: "/logos/aw-logo-2.png",
+    icon: "/logos/logo.png",
   },
   navigationLinks: [
-    { href: "/plan", label: "Sensor Dashboard" },
+    { href: "/sensor-dashboard", label: "Sensor Dashboard" },
+    { href: "/plant-health", label: "Plant Health" },
+    { href: "/dashboard", label: "Dashboard" },
     { href: "/map", label: "Weather Map" },
-    { href: "/briefing", label: "Weather Briefing" },
   ],
 };

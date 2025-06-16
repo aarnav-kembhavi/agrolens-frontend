@@ -24,14 +24,10 @@ const navItems = [
     label: "Weather Map",
     href: "/map",
   },
-  {
-    label: "Briefing",
-    href: "/briefing",
-  },
-  {
-    label: "Assistant",
-    href: "/voice-assistant",
-  },
+  // {
+  //   label: "Assistant",
+  //   href: "/voice-assistant",
+  // },
   {
     label: "Settings",
     href: "/settings",

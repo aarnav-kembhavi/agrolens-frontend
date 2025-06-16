@@ -8,22 +8,20 @@ import { Progress } from "@/components/ui/progress";
 
 // Sensor data interface matching backend response
 interface SensorData {
-  device_id: string;
+  id: number;
   temperature: number;
   humidity: number;
   moisture: number;
-  ph: number;
-  lastUpdated: Date; // Added for frontend display
+  lastUpdated: string; // Added for frontend display
 }
 
 export default function SensorDashboardPage() {
   const [sensorData, setSensorData] = useState<SensorData>({
-    device_id: "",
+    id: 0,
     moisture: 0,
-    ph: 0,
     temperature: 0,
     humidity: 0,
-    lastUpdated: new Date(),
+    lastUpdated: "",
   });
 
   useEffect(() => {
@@ -35,12 +33,11 @@ export default function SensorDashboardPage() {
         }
         const data = await response.json();
         setSensorData({
-          device_id: data.device_id,
-          moisture: data.moisture,
-          ph: data.ph,
-          temperature: data.temperature,
-          humidity: data.humidity,
-          lastUpdated: new Date(),
+          id: data[0].id,
+          moisture: data[0].moisture,
+          temperature: data[0].temperature,
+          humidity: data[0].humidity,
+          lastUpdated: data[0].created_at,
         });
       } catch (error) {
         console.error("Error fetching sensor data:", error);
@@ -56,19 +53,13 @@ export default function SensorDashboardPage() {
 
   const getStatusColor = (
     value: number,
-    type: "moisture" | "ph" | "temperature" | "humidity"
+    type: "moisture" | "temperature" | "humidity"
   ) => {
     switch (type) {
       case "moisture":
         return value < 30
           ? "text-red-500"
           : value < 50
-            ? "text-yellow-500"
-            : "text-green-500";
-      case "ph":
-        return value < 5.5 || value > 7.5
-          ? "text-red-500"
-          : value < 6 || value > 7
             ? "text-yellow-500"
             : "text-green-500";
       case "temperature":
@@ -113,7 +104,7 @@ export default function SensorDashboardPage() {
                   {sensorData.moisture.toFixed(1)}%
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {sensorData.lastUpdated.toLocaleTimeString()}
+                  {sensorData.lastUpdated}
                 </span>
               </div>
               <Progress value={sensorData.moisture} className="h-2" />
@@ -122,32 +113,7 @@ export default function SensorDashboardPage() {
         </Card>
 
         {/* Soil pH Card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-orange-500" />
-              Soil pH
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span
-                  className={`text-2xl font-bold ${getStatusColor(
-                    sensorData.ph,
-                    "ph"
-                  )}`}
-                >
-                  {sensorData.ph.toFixed(1)}
-                </span>
-                <span className="text-sm text-muted-foreground">
-                  {sensorData.lastUpdated.toLocaleTimeString()}
-                </span>
-              </div>
-              <Progress value={(sensorData.ph / 14) * 100} className="h-2" />
-            </div>
-          </CardContent>
-        </Card>
+        
 
         {/* Temperature Card */}
         <Card>
@@ -169,7 +135,7 @@ export default function SensorDashboardPage() {
                   {sensorData.temperature.toFixed(1)}°C
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {sensorData.lastUpdated.toLocaleTimeString()}
+                  {sensorData.lastUpdated}
                 </span>
               </div>
               <Progress
@@ -200,7 +166,7 @@ export default function SensorDashboardPage() {
                   {sensorData.humidity.toFixed(1)}%
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {sensorData.lastUpdated.toLocaleTimeString()}
+                  {sensorData.lastUpdated}
                 </span>
               </div>
               <Progress value={sensorData.humidity} className="h-2" />

@@ -52,4 +52,4 @@ __pycache__/
 *.pywz
 
 /api
-
+.venv

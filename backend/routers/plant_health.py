@@ -1,59 +1,35 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, status
+from fastapi import APIRouter, UploadFile, File
 from pydantic import BaseModel
-import shutil
-import os
 
 router = APIRouter()
 
-# Define response model
-class PlantHealthPrediction(BaseModel):
-    disease: str
+# Define the response model to match frontend expectations for documentation
+class PlantHealthResponse(BaseModel):
+    prediction_class: str
     confidence: float
-    treatment: str
+    remedy: str
 
-# Create a directory to save uploaded images (optional, for demonstration)
-UPLOAD_DIRECTORY = "./uploaded_images"
-os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
-
-@router.post("/plant-health", response_model=PlantHealthPrediction)
-async def analyze_plant_health(file: UploadFile = File(...)):
+@router.post("/predict-disease", response_model=PlantHealthResponse)
+async def predict_disease(file: UploadFile = File(...)):
     """
-    Accepts an image file of a plant leaf and returns a mock disease prediction.
-    In a real scenario, this would integrate with a CNN/TensorFlow model.
+    Accepts a plant image file and returns a mock disease prediction.
+    The response structure is tailored to the frontend's requirements.
     """
-    # Save the uploaded file (optional, for verification)
-    file_location = os.path.join(UPLOAD_DIRECTORY, file.filename)
-    try:
-        with open(file_location, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Could not upload file: {e}")
+    # In a real application, you would process the file with a ML model.
+    # For now, we return mock data with the keys expected by the frontend.
+    print(f"Received file: {file.filename}")
 
-    # --- Mock Prediction Logic (Replace with actual ML model inference) ---
-    # In a real application, you would load your CNN model here,
-    # preprocess the image, and run inference.
-    
-    # Simulate different outcomes based on filename or a random choice
-    if "healthy" in file.filename.lower():
-        predicted_disease = "Healthy Plant"
-        confidence_score = 0.98
-        recommended_treatment = "Continue good care practices."
-    elif "blight" in file.filename.lower():
-        predicted_disease = "Early Blight"
-        confidence_score = 0.85
-        recommended_treatment = "Apply copper-based fungicide; improve air circulation."
-    elif "rust" in file.filename.lower():
-        predicted_disease = "Rust Fungus"
-        confidence_score = 0.75
-        recommended_treatment = "Remove infected leaves; use fungicidal spray."
-    else:
-        # Default mock response for other images
-        predicted_disease = "Undetermined Disease"
-        confidence_score = 0.60
-        recommended_treatment = "Consult a local agronomist for further diagnosis."
+    # Mock logic: you could add more dynamic responses based on filename etc.
+    # For example:
+    # if "healthy" in file.filename.lower():
+    #     return {
+    #         "prediction_class": "Healthy",
+    #         "confidence": 0.99,
+    #         "remedy": "No treatment necessary. Keep up the good work!"
+    #     }
 
-    return PlantHealthPrediction(
-        disease=predicted_disease,
-        confidence=confidence_score,
-        treatment=recommended_treatment
-    ) 
+    return {
+        "prediction_class": "Tomato Late Blight",
+        "confidence": 0.95,
+        "remedy": "Apply a fungicide containing mancozeb or chlorothalonil. Ensure good air circulation and avoid overhead watering."
+    } 

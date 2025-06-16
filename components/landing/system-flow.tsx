@@ -1,48 +1,34 @@
 import { motion } from "framer-motion"
-import { Plane, Cloud, Map, MessageSquareText, Mic, BarChart } from "lucide-react"
+import { Leaf, Droplet, MapPin, Bot } from "lucide-react"
 
 const flowSteps = [
   {
-    title: "Flight Planning",
-    description: "Enter your flight plan with waypoints and altitudes using standard ICAO IDs for a comprehensive weather analysis",
-    icon: Plane,
-    gradient: "from-blue-500 via-indigo-500 to-violet-500",
-    shadowColor: "shadow-blue-500/25",
-  },
-  {
-    title: "Weather Reports",
-    description: "Access real-time METAR, TAF, PIREP, and SIGMET reports for each waypoint along your route",
-    icon: Cloud,
+    title: "Plant Health Classifier",
+    description: "Upload a plant leaf photo for instant AI-powered disease detection and remedy suggestions.",
+    icon: Leaf,
     gradient: "from-green-500 via-emerald-500 to-teal-500",
     shadowColor: "shadow-green-500/25",
   },
   {
-    title: "Interactive Map",
-    description: "Visualize your flight path with weather overlays and VFR/IFR conditions for each leg",
-    icon: Map,
+    title: "Sensor Dashboard",
+    description: "View real-time soil moisture, temperature, and humidity data from your fields.",
+    icon: Droplet,
+    gradient: "from-blue-500 via-sky-500 to-cyan-500",
+    shadowColor: "shadow-blue-500/25",
+  },
+  {
+    title: "Interactive Farm Map",
+    description: "Visualize your farm, irrigation zones, and sensor locations on an interactive map.",
+    icon: MapPin,
+    gradient: "from-lime-500 via-yellow-500 to-amber-500",
+    shadowColor: "shadow-lime-500/25",
+  },
+  {
+    title: "AI Chat Assistant",
+    description: "Ask questions about watering, soil, pests, and get simple, actionable advice.",
+    icon: Bot,
     gradient: "from-purple-500 via-violet-500 to-indigo-500",
     shadowColor: "shadow-purple-500/25",
-  },
-  {
-    title: "AI Summary",
-    description: "Get intelligent summaries of weather conditions and potential hazards for your entire route",
-    icon: MessageSquareText,
-    gradient: "from-orange-500 via-amber-500 to-yellow-500",
-    shadowColor: "shadow-orange-500/25",
-  },
-  {
-    title: "Voice Assistant",
-    description: "Listen to weather briefings hands-free with our voice-enabled assistant",
-    icon: Mic,
-    gradient: "from-red-500 via-rose-500 to-pink-500",
-    shadowColor: "shadow-red-500/25",
-  },
-  {
-    title: "Weather Analysis",
-    description: "View detailed weather activity classification and VFR conditions for each flight leg",
-    icon: BarChart,
-    gradient: "from-cyan-500 via-sky-500 to-blue-500",
-    shadowColor: "shadow-cyan-500/25",
   },
 ]
 
@@ -56,17 +42,17 @@ export function SystemFlow() {
         className="text-center"
       >
         <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-          How It{" "}
-          <span className="bg-gradient-to-r from-[#38bdf8] via-[#2dd4bf] to-[#0070F3] bg-clip-text text-transparent">
-            Works
+          Explore the{" "}
+          <span className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent">
+            AgroLens Toolkit
           </span>
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
-          Our comprehensive system provides detailed weather briefings and analysis for your entire flight route through an intuitive workflow
+          A suite of powerful, AI-driven tools designed to help you manage your farm efficiently and sustainably.
         </p>
       </motion.div>
 
-      <div className="mt-16 grid gap-8 lg:grid-cols-3">
+      <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
         {flowSteps.map((step, index) => (
           <motion.div
             key={step.title}

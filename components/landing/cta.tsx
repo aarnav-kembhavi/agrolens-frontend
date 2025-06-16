@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, Plane } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
@@ -19,21 +19,20 @@ export function CTA() {
         className="text-center"
       >
         <h2 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-          Start Your{" "}
-          <span className="text-primary dark:text-primary/90">Weather Briefing</span>
+          Ready to Grow Smarter?{" "}
+          <span className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent">Join AgroLens Today</span>
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:mt-8">
-          Join thousands of pilots using our platform for comprehensive weather briefings and flight planning
+          Join a community of forward-thinking farmers using AI to boost yields, save resources, and build a more sustainable future.
         </p>
         <div className="mt-8 sm:mt-10 flex justify-center">
-          <Link href="/plan">
+          <Link href="/login">
             <ShimmerButton 
               className="flex items-center gap-2 px-6 py-3 text-base sm:text-lg"
-              background="linear-gradient(to right, #0ea5e9, #22d3ee)"
+              background="linear-gradient(to right, #10B981, #34D399)"
             >
-              <Plane className="w-5 h-5" />
               <span className="whitespace-pre-wrap text-center font-medium leading-none tracking-tight text-white">
-                Plan Your Flight
+                Go to Dashboard
               </span>
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </ShimmerButton>
@@ -52,10 +51,10 @@ export function CTA() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col gap-2">
               <h3 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                Weather Alerts
+                Stay Ahead of the Curve
               </h3>
               <p className="text-lg text-muted-foreground">
-                Get notified about significant weather changes and SIGMET alerts for your favorite routes
+                Subscribe to our newsletter for the latest in ag-tech, farming tips, and AgroLens updates.
               </p>
             </div>
             <div className="w-full lg:w-auto max-w-md">
@@ -73,10 +72,10 @@ export function CTA() {
                 />
                 <ShimmerButton 
                   className="w-full sm:w-auto px-6 py-3 text-base"
-                  background="linear-gradient(to right, #0ea5e9, #22d3ee)"
+                  background="linear-gradient(to right, #10B981, #34D399)"
                 >
                   <span className="whitespace-pre-wrap text-center font-medium leading-none tracking-tight text-white">
-                    Get Alerts
+                    Subscribe Now
                   </span>
                 </ShimmerButton>
               </form>

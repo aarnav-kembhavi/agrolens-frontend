@@ -1,3 +1,6 @@
 fastapi
+supabase
+python-dotenv
+uvicorn
 uvicorn
 python-multipart # For file uploads 

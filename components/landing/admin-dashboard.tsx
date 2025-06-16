@@ -4,60 +4,32 @@ import { ArrowRight } from "lucide-react"
 
 const features = [
   {
-    title: "Flight Planning Interface",
-    description: "Plan your flight route with multiple waypoints and altitudes using our intuitive interface. Enter ICAO codes and altitudes to create your flight plan.",
-    image: "/images/light/aw-plan-light.png",
-    darkImage: "/images/dark/aw-plan-dark.png",
-    alt: "Flight planning interface",
+    title: "Plant Health Classifier",
+    description: "Upload a photo of a plant leaf and our AI will instantly identify potential diseases, providing you with a diagnosis and recommended treatments.",
+    image: "/images/light/agrolens-plant-health-light.png",
+    darkImage: "/images/dark/agrolens-plant-health-dark.png",
+    alt: "AgroLens Plant Health Classifier Interface",
   },
   {
-    title: "METAR Reports",
-    description: "Access detailed METAR reports for each waypoint, providing crucial information about current weather conditions at airports along your route.",
-    image: "/images/light/aw-brief-metar-light.png",
-    darkImage: "/images/dark/aw-brief-metar-dark.png",
-    alt: "METAR reports display",
+    title: "Sensor Data Dashboard",
+    description: "Monitor your farm's vital signs in real-time. Our dashboard displays live data from your sensors, including soil moisture, temperature, humidity, and light levels.",
+    image: "/images/light/agrolens-sensor-dashboard-light.png",
+    darkImage: "/images/dark/agrolens-sensor-dashboard-dark.png",
+    alt: "AgroLens Sensor Data Dashboard",
   },
   {
-    title: "SIGMET Alerts",
-    description: "Stay informed about significant meteorological conditions that could affect your flight safety with real-time SIGMET alerts.",
-    image: "/images/light/aw-brief-sigmet-light.png",
-    darkImage: "/images/dark/aw-brief-sigmet-dark.png",
-    alt: "SIGMET alerts interface",
+    title: "Interactive Farm Map",
+    description: "Get a bird's-eye view of your entire operation. Our interactive map allows you to visualize sensor locations, monitor different zones, and track crop performance across your fields.",
+    image: "/images/light/agrolens-map-light.png",
+    darkImage: "/images/dark/agrolens-map-dark.png",
+    alt: "AgroLens Interactive Farm Map",
   },
   {
-    title: "PIREP Information",
-    description: "View pilot reports (PIREPs) from other aircraft to get real-world weather conditions and turbulence reports along your route.",
-    image: "/images/light/aw-brief-pirep-light.png",
-    darkImage: "/images/dark/aw-breif-pirep-dark.png",
-    alt: "PIREP information display",
-  },
-  {
-    title: "AI-Powered Weather Summary",
-    description: "Get intelligent summaries of weather conditions, potential hazards, and flight recommendations powered by advanced AI analysis.",
-    image: "/images/light/aw-brief-ai-light.png",
-    darkImage: "/images/dark/aw-brief-ai-dark.png",
-    alt: "AI weather summary",
-  },
-  {
-    title: "Voice Assistant",
-    description: "Get real-time weather briefings and flight recommendations using our voice assistant.",
-    image: "/images/light/aw-voice-light.png",
-    darkImage: "/images/dark/aw-voice-dark.png",
-    alt: "Voice assistant interface",
-  },
-  {
-    title: "Interactive Weather Map",
-    description: "Visualize your flight path with weather overlays, showing precipitation, clouds, winds, and VFR/IFR conditions along your route.",
-    image: "/images/light/aw-map-light.png",
-    darkImage: "/images/dark/aw-map-dark.png",
-    alt: "Interactive weather map",
-  },
-  {
-    title: "Flight Dashboard",
-    description: "Access all your flight information, weather briefings, and route details in one comprehensive dashboard view.",
-    image: "/images/light/aw-dash-light.png",
-    darkImage: "/images/dark/aw-dash-dark.png",
-    alt: "Flight dashboard overview",
+    title: "AI Farming Assistant",
+    description: "Have a question? Our AI-powered chat assistant is available 24/7 to provide expert advice on everything from pest control to optimal harvesting times.",
+    image: "/images/light/agrolens-chat-light.png",
+    darkImage: "/images/dark/agrolens-chat-dark.png",
+    alt: "AgroLens AI Chat Assistant",
   }
 ]
 
@@ -71,13 +43,13 @@ export function AdminDashboard() {
         className="text-center"
       >
         <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-          Powerful{" "}
-          <span className="bg-gradient-to-r from-[#38bdf8] via-[#2dd4bf] to-[#0070F3] bg-clip-text text-transparent">
-            Weather Tools
+          A Closer Look at the{" "}
+          <span className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent">
+            AgroLens Toolkit
           </span>
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
-          Everything you need for comprehensive flight weather briefing and analysis
+          Dive into the core features that make AgroLens the ultimate smart farming assistant.
         </p>
       </motion.div>
 
