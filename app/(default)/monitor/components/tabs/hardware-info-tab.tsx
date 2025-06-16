@@ -46,6 +46,7 @@ const hardwareComponents = [
     icon: <Thermometer className="h-6 w-6" />,
     colorTheme: 'bg-gradient-to-br from-red-400 to-pink-500',
     imagePath: '/images/sensors/dht22.jpg',
+    
   },
   {
     id: 'grow-light',
