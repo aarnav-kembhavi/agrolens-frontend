@@ -17,9 +17,9 @@ export async function POST(request: Request) {
 
 	if (res.data.properties?.email_otp) {
 		const resendRes = await resend.emails.send({
-			from: `YOLO Object Detection <onboarding@${process.env.RESEND_DOMAIN}>`,
+			from: `AgroLens <onboarding@${process.env.RESEND_DOMAIN}>`,
 			to: [data.email],
-			subject: "YOLO Object Detection - Verify Email",
+			subject: "AgroLens - Verify Email",
 			react: SupaAuthVerifyEmail({
 				verificationCode: res.data.properties?.email_otp,
 			}),
