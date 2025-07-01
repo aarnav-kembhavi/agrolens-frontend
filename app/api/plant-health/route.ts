@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { KindwiseResponse } from "@/lib/types";
+import { createSupabaseServer } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.KINDWISE_API_KEY;
@@ -11,14 +12,18 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const formData = await req.formData();
-    const file = formData.get("file") as File;
+    const { imageUrl } = await req.json();
 
-    if (!file) {
-      return NextResponse.json({ error: "No file provided." }, { status: 400 });
+    if (!imageUrl) {
+      return NextResponse.json({ error: "No image URL provided." }, { status: 400 });
     }
 
-    const fileBuffer = await file.arrayBuffer();
+    // Fetch the image from the URL and convert to base64
+    const imageResponse = await fetch(imageUrl);
+    if (!imageResponse.ok) {
+      return NextResponse.json({ error: "Failed to fetch image from URL." }, { status: 500 });
+    }
+    const fileBuffer = await imageResponse.arrayBuffer();
     const imageBase64 = Buffer.from(fileBuffer).toString("base64");
 
     const details = [

@@ -14,6 +14,7 @@ interface ImageUploadFormProps {
   isAnalyzing: boolean;
   previewUrl: string | null;
   selectedImage: File | null;
+  error: string | null;
 }
 
 export const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
@@ -21,6 +22,7 @@ export const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
   onAnalyze,
   isAnalyzing,
   previewUrl,
+  error,
 }) => {
   return (
     <Card className="overflow-hidden">
@@ -66,7 +68,7 @@ export const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
           </div>
         )}
       </CardContent>
-      <CardFooter className="bg-muted/50 px-6 py-4">
+      <CardFooter className="flex-col items-stretch bg-muted/50 px-6 py-4">
         <Button onClick={onAnalyze} disabled={!previewUrl || isAnalyzing} className="w-full">
           {isAnalyzing ? (
             <>
@@ -80,6 +82,9 @@ export const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
             </>
           )}
         </Button>
+        {error && (
+          <p className="mt-2 text-sm text-center text-red-600 dark:text-red-400">{error}</p>
+        )}
       </CardFooter>
     </Card>
   );

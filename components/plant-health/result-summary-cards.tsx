@@ -12,6 +12,8 @@ interface ResultSummaryCardsProps {
 export const ResultSummaryCards: React.FC<ResultSummaryCardsProps> = ({
   result,
 }) => {
+  console.log(result.is_plant);
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <Card className="p-6 bg-blue-500 text-primary-foreground">

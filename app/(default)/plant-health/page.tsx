@@ -1,87 +1,100 @@
 "use client";
 
-import React, { useState } from "react";
-import { Leaf, Loader2 } from "lucide-react";
-
-import { PageHeader } from "@/components/ui/page-header";
-import { AnalysisResults } from "@/components/plant-health/analysis-results";
-import { ImageUploadForm } from "@/components/plant-health/image-upload-form";
-import { KindwiseResponse, Question } from "@/lib/types";
+import React, { useState, Suspense } from 'react';
+import { createSupabaseBrowser } from '@/lib/supabase/client';
+import useUser from '@/hooks/use-user';
+import { useRouter } from 'next/navigation';
+import { PageHeader } from '@/components/ui/page-header';
+import { ImageUploadForm } from '@/components/plant-health/image-upload-form';
+import RecentPlantHealthAnalyses from '@/components/plant-health/recent-analyses';
+import { Skeleton } from '@/components/ui/skeleton';
+import { KindwiseResponse } from '@/lib/types';
 
 export default function PlantHealthPage() {
+  const supabase = createSupabaseBrowser();
+  const { data: user } = useUser();
+  const router = useRouter();
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [prediction, setPrediction] = useState<KindwiseResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
-  const [answered, setAnswered] = useState<boolean>(false);
-  const [highlightedSuggestion, setHighlightedSuggestion] = useState<number | null>(null);
 
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedImage(file);
       setPreviewUrl(URL.createObjectURL(file));
-      setPrediction(null);
       setError(null);
-      setActiveQuestion(null);
-      setAnswered(false);
-      setHighlightedSuggestion(null);
     }
   };
 
   const handleAnalyze = async () => {
-    if (!selectedImage) return;
+    if (!selectedImage || !user) return;
 
     setIsAnalyzing(true);
-    setPrediction(null);
     setError(null);
-    setActiveQuestion(null);
-    setAnswered(false);
-    setHighlightedSuggestion(null);
-
-    const formData = new FormData();
-    formData.append("file", selectedImage);
 
     try {
-      const response = await fetch("/api/plant-health", {
-        method: "POST",
-        body: formData,
+      // 1. Upload image to Supabase Storage
+      const fileName = `${user.id}/${Date.now()}-${selectedImage.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from('agrolens_images')
+        .upload(fileName, selectedImage);
+
+      if (uploadError) {
+        throw new Error(`Failed to upload image: ${uploadError.message}`);
+      }
+
+      // 2. Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('agrolens_images')
+        .getPublicUrl(fileName);
+
+      // 3. Send URL to API for analysis
+      const response = await fetch('/api/plant-health', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ imageUrl: publicUrl }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Analysis failed');
       }
 
-      setPrediction(data);
-      if (data.result?.disease?.question) {
-        setActiveQuestion(data.result.disease.question);
+      const analysisData: KindwiseResponse = await response.json();
+
+      // 4. Save analysis result to the database
+      const { data: savedData, error: dbError } = await supabase
+        .from('plant_health_analyses')
+        .insert({ user_id: user.id, image_url: publicUrl, result: analysisData })
+        .select('id')
+        .single();
+
+      if (dbError) {
+        throw new Error(`Failed to save analysis: ${dbError.message}`);
       }
-    } catch (error) {
-      console.error("Error analyzing plant health:", error);
-      setError(
-        error instanceof Error
-          ? error.message
-          : "An unknown error occurred. Please try again."
-      );
-    } finally {
+
+      // 5. Redirect to the results page
+      if (savedData) {
+        router.push(`/plant-health/${savedData.id}`);
+      }
+
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred.');
       setIsAnalyzing(false);
     }
-  };
-
-  const handleQuestionAnswer = (answer: "yes" | "no") => {
-    if (!activeQuestion) return;
-    const option = activeQuestion.options[answer];
-    setHighlightedSuggestion(option.suggestion_index);
-    setAnswered(true);
+    // No finally block to set isAnalyzing to false, as the page will redirect on success.
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <PageHeader title="Plant Health Analysis" />
+      <PageHeader 
+        title="Plant Health Analysis" 
+      />
       <div className="mt-6">
         <ImageUploadForm
           onImageSelect={handleImageSelect}
@@ -89,37 +102,22 @@ export default function PlantHealthPage() {
           isAnalyzing={isAnalyzing}
           previewUrl={previewUrl}
           selectedImage={selectedImage}
+          error={error}
         />
-
-        <div className="mt-8">
-          {isAnalyzing && (
-            <div className="flex flex-col items-center justify-center gap-4 p-8 bg-card rounded-lg border">
-              <Loader2 className="h-12 w-12 animate-spin text-primary" />
-              <p className="text-lg text-muted-foreground">Analyzing your plant...</p>
-              <p className="text-sm text-muted-foreground">This might take a moment.</p>
-            </div>
-          )}
-
-          {!isAnalyzing && (prediction || error) && (
-            <AnalysisResults
-              prediction={prediction}
-              error={error}
-              activeQuestion={activeQuestion}
-              answered={answered}
-              highlightedSuggestion={highlightedSuggestion}
-              onQuestionAnswer={handleQuestionAnswer}
-            />
-          )}
-
-          {!isAnalyzing && !prediction && !error && (
-            <div className="flex flex-col items-center justify-center gap-4 p-8 bg-card rounded-lg border border-dashed">
-              <Leaf className="h-12 w-12 text-muted-foreground" />
-              <p className="text-lg text-muted-foreground">Your analysis results will appear here.</p>
-              <p className="text-sm text-muted-foreground">Upload an image to get started.</p>
-            </div>
-          )}
-        </div>
+        
+        {user && <RecentPlantHealthAnalyses user={user} />}
       </div>
     </div>
   );
 }
+
+const RecentAnalysesSkeleton = () => (
+  <div className="mt-12">
+    <Skeleton className="h-8 w-48 mb-6" />
+    <div className="space-y-4">
+      {[...Array(3)].map((_, i) => (
+        <Skeleton key={i} className="h-24 w-full" />
+      ))}
+    </div>
+  </div>
+);

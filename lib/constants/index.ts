@@ -1,6 +1,7 @@
 export const protectedPaths = [
-    "/dashboard",
-
+    "/plant-health",
+    "/sensor-dashboard",
+    "/chat-v3",
 ];
 export const authPaths = [
     "/register",

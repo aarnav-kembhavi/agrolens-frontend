@@ -18,7 +18,7 @@ const navItems = [
   },
   {
     label: "Chat",
-    href: "/chat",
+    href: "/chat-v3",
   },
   {
     label: "Weather Map",

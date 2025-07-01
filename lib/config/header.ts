@@ -24,6 +24,6 @@ export const headerConfig: HeaderConfig = {
     { href: "/sensor-dashboard", label: "Sensor Dashboard" },
     { href: "/plant-health", label: "Plant Health" },
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/map", label: "Weather Map" },
+    { href: "/chat-v3", label: "Chat" },
   ],
 };
