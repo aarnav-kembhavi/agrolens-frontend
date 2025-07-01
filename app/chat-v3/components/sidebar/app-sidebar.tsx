@@ -46,7 +46,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
               className="flex flex-row gap-3 items-center"
             >
               <Image
-                src="logos/logo.png"
+                src="/logos/logo.png"
                 alt="agrolens-logo"
                 width={40}
                 height={40}
