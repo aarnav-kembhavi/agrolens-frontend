@@ -46,14 +46,14 @@ export function AppSidebar({ user }: AppSidebarProps) {
               className="flex flex-row gap-3 items-center"
             >
               <Image
-                src="/idea-lab-round.png"
-                alt="idea-lab-round"
+                src="logos/logo.png"
+                alt="agrolens-logo"
                 width={40}
                 height={40}
                 className="h-10 w-10 "
                 />
               <span className="text-md font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
-                Health Monitor
+                AgroLens
               </span>
             </Link>
             <Tooltip>
