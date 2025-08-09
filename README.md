@@ -1,88 +1,71 @@
-# Aviation Weather [Honeywell Designathon 2025 2nd Place Winner]
+# AgroLens [Smart Agriculture Hackathon Project]
 
 ## Problem Statement
 
-Pilots must gather and analyze extensive weather data before a flight, which is a time-consuming
-and complex process due to the sheer volume and coded nature of the information. This high
-workload can overwhelm the flight crew, leading to the risk of ignoring critical reports altogether.
+Farmers often rely on manual observation or fragmented data sources to monitor crop health and decide irrigation schedules. This process is inefficient, prone to human error, and can lead to delayed detection of plant diseases or poor water management, reducing overall yield and profitability.
 
 ## Solution Overview
 
-Aviation Weather is a web application that provides real-time weather briefings for flight planning. It simplifies the process of gathering and analyzing weather data by providing an intuitive interface and AI-powered summaries.
+AgroLens is an IoT-based smart agriculture platform that provides real-time farm monitoring and actionable insights. It integrates sensor data, weather forecasts, and AI-powered plant disease detection into a unified dashboard for precision farming.
 
-![Flight Planning Interface](public/images/light/aw-plan-light.png)
+![AgroLens Dashboard](public/images/light/agrolens-dashboard.png)
 
 ## Key Features
 
-### 1. Flight Planning Interface
-- Plan your flight route with multiple waypoints and altitudes
-- Intuitive interface for entering ICAO codes and altitudes
-- Route visualization using Leaflet.js
+### 1. Field Monitoring Interface
+- Monitor multiple farm plots with real-time soil moisture, temperature, and humidity data
+- Interactive interface to view sensor nodes and historical trends
+- Weather integration for forecast-based planning
 
-### 2. Weather Reports
-- **METAR Reports**: Detailed current weather conditions at airports
-- **SIGMET Alerts**: Real-time significant meteorological condition alerts
-- **PIREP Information**: Pilot reports for real-world weather conditions
-- **TAF Reports**: Terminal Aerodrome Forecasts
+### 2. Crop Health Analysis
+- **Disease Detection**: AI-powered plant infection identification from leaf images
+- **Growth Monitoring**: Track crop conditions over time with visual analytics
+- **Pest Alerts**: Early notifications based on sensor and weather correlation
 
-![METAR Interface](public/images/light/aw-brief-metar-light.png)
-![SIGMET Visualization](public/images/light/aw-brief-map-light.png)
-![AI Summary](public/images/light/aw-brief-ai-light.png)
-
+![Disease Detection](public/images/light/agrolens-disease.png)
+![Weather Overlay](public/images/light/agrolens-weather.png)
 
 ### 3. Additional Features
-- **AI-Powered Weather Summary**: Summary of METAR, SIGMET, and PIREP information
-- **Voice Assistant**: Real-time weather briefings through voice commands powered by Gemini Live API
-- **Interactive Weather Map**: Visual weather overlays and route planning
-- **Dashboard**: All flight information in one view
+- **Irrigation Optimization**: Suggests watering schedules based on soil data and weather predictions
+- **Data-Driven Recommendations**: Fertilizer and treatment suggestions for improving yield
+- **Offline Support**: Local storage for areas with limited internet connectivity
+- **Mobile-First Design**: Accessible to farmers via smartphone
 
-![Weather Map](public/images/light/aw-map-light.png)
-![Voice Assistant](public/images/light/aw-voice-light.png)
+![Irrigation Plan](public/images/light/agrolens-irrigation.png)
+![Mobile View](public/images/light/agrolens-mobile.png)
 
 ## Tech Stack
 
-- **Frontend**: NextJS, TypeScript, TailwindCSS, Shadcn UI, Leaflet.js
-- **Backend**: Flask, FastAPI, Python
-- **External APIs**: Gemini Live API, aviationweather.gov API
-- **Deployment**: Vercel, Render
-
+- **Hardware**: NodeMCU, DHT11 (temperature/humidity), capacitive soil moisture sensors
+- **Backend**: Supabase (database), MQTT (sensor data ingestion)
+- **Frontend**: NextJS, TypeScript, TailwindCSS, Shadcn UI
+- **AI Models**: Cloud-based plant disease detection API
+- **Deployment**: Vercel (frontend), Supabase (backend), MQTT broker on cloud
 
 ## Setup Instructions
+
+### Hardware Setup
+1. Assemble sensor nodes with NodeMCU boards  
+2. Connect DHT11 and soil moisture sensors to NodeMCU pins  
+3. Flash firmware with MQTT connection details and Supabase API endpoint  
 
 ### Frontend Setup
 1. Clone the repository
 ```bash
-git clone https://github.com/CubeStar1/aviation-weather-app
-cd aviation-weather-app
+git clone https://github.com/YourUsername/agrolens-app
+cd agrolens-app
 ```
-
 2. Install dependencies
 ```bash
 npm install
 ```
-
-3. Create a `.env.local` file with required environment variables
+3. Create a `.env.local` file with:
 ```bash
-NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_API_URL=https://your-supabase-project-url
+NEXT_PUBLIC_SUPABASE_KEY=your_key_here
 ```
-
 4. Run the development server
 ```bash
 npm run dev
 ```
-
-The application will be available at `http://localhost:3000`
-
-### Backend Setup
-
-The backend API is maintained in a separate repository. For the API setup:
-[Aviation Weather API Repository](https://github.com/CubeStar1/aviation-weather-api)
-
-## Input Format
-
-The application accepts flight plans in the following format:
-- Airport ID, Altitude, Airport ID, Altitude, Airport ID, Altitude, etc.
-- Example: `KPHX,1500,KBXK,12000,KPSP,20000,KLAX,50`
-- Airport ID: Standard ICAO ID
-- Altitude: In feet
-
+Access the application at `http://localhost:3000`
